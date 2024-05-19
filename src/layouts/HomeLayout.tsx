@@ -1,10 +1,12 @@
 import SearchBar from "../components/SearchBar";
 import TaskCard from "../components/TaskCard";
+import TaskForm from "../components/TaskForm";
 
 function HomeLayout() {
   return (
-    <div className="h-screen  bg-purple-950 p-1 w-full">
+    <div className="h-screen  bg-black p-1 w-full">
       <div className="flex flex-col items-center space-y-10 mt-10">
+        <TaskForm />
         <SearchBar />
         <div
           className="flex flex-col space-y-2 overflow-y-auto items-center w-full max-w-screen-lg"

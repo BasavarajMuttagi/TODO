@@ -2,9 +2,9 @@ import { CheckCircle, DotsThree, Star } from "@phosphor-icons/react";
 
 function TaskCard() {
   return (
-    <div className="w-full rounded outline-none bg-white/25 min-h-10 text-neutral-400 flex justify-between items-center px-2 py-4 space-x-2  shrink-0 hover:bg-white/35">
+    <div className="w-full rounded outline-none bg-white/15 min-h-10 text-neutral-400 flex justify-between items-center px-2 py-4 space-x-2  shrink-0 hover:bg-white/35">
       <div>
-        {false ? (
+        {true ? (
           <CheckCircle
             size={28}
             weight="fill"
@@ -18,11 +18,11 @@ function TaskCard() {
         )}
       </div>
       <div className="font-semibold text-white/80 flex-1 overflow-x-hidden text-nowrap">
-        <p className="hover:brightness-150">Incredible India!</p>
+        <p className="hover:brightness-150 select-none">Incredible India!</p>
       </div>
       <div className="flex items-center space-x-2">
         <div>
-          {false ? (
+          {true ? (
             <Star
               size={20}
               weight="fill"
