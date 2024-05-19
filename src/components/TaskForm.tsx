@@ -25,7 +25,7 @@ function TaskForm({
   });
 
   const submitHandlers = (data: taskType) => {
-    console.log(data)
+    console.log(data);
   };
   return (
     <dialog
