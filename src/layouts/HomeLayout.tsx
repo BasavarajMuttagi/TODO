@@ -43,11 +43,10 @@ function HomeLayout() {
     <div className="h-screen  bg-black p-1 w-full">
       <div className="flex flex-col items-center space-y-5 mt-10">
         <AddTask openDialog={methods.openDialog} />
-
         <SearchBar setTasks={setTasks} />
-        <TaskForm {...methods} refetch={refetch} />
+        <TaskForm {...methods} refetch={refetch} Type="create" />
         <div
-          className="flex flex-col space-y-2 overflow-y-auto items-center w-full max-w-screen-lg"
+          className="flex flex-col space-y-2 overflow-y-auto items-center w-full max-w-screen-lg scroll-smooth"
           style={{ maxHeight: "calc(100vh - 250px)", scrollbarWidth: "thin" }}
         >
           {tasks.map(({ id, label, isComplete, isImportant }) => (

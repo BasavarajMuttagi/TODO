@@ -7,10 +7,14 @@ function TaskForm({
   closeDialog,
   dialogRef,
   refetch,
+  Type,
+  id,
 }: {
   closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement>;
   refetch: () => void;
+  Type: "create" | "update";
+  id?: string;
 }) {
   const taskSchema = z.object({
     label: z.string().min(1),
@@ -29,11 +33,19 @@ function TaskForm({
   });
 
   const submitHandlers = async (data: taskType) => {
-    closeDialog();
-    await apiClient()
-      .post("/todo/create", data)
-      .then(() => refetch())
-      .then(() => reset());
+    if (Type == "create") {
+      await apiClient()
+        .post("/todo/create", data)
+        .then(() => refetch())
+        .then(() => reset());
+      closeDialog();
+    } else {
+      await apiClient()
+        .put(`/todo/update/${id}`, data)
+        .then(() => refetch())
+        .then(() => reset());
+      closeDialog();
+    }
   };
   return (
     <dialog
@@ -75,7 +87,7 @@ function TaskForm({
             type="submit"
             className="px-2 py-1 rounded border border-white/50 bg-white text-black hover:brightness-90"
           >
-            Create
+            {Type == "create" ? "Create" : "Update"}
           </button>
         </div>
       </form>
