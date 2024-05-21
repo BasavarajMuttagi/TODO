@@ -1,13 +1,16 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import apiClient from "../axios/apiClient";
 
 function TaskForm({
   closeDialog,
   dialogRef,
+  refetch,
 }: {
   closeDialog: () => void;
   dialogRef: React.RefObject<HTMLDialogElement>;
+  refetch: () => void;
 }) {
   const taskSchema = z.object({
     label: z.string().min(1),
@@ -20,12 +23,17 @@ function TaskForm({
     register,
     formState: { errors },
     handleSubmit,
+    reset,
   } = useForm<taskType>({
     resolver: zodResolver(taskSchema),
   });
 
-  const submitHandlers = (data: taskType) => {
-    console.log(data);
+  const submitHandlers = async (data: taskType) => {
+    closeDialog();
+    await apiClient()
+      .post("/todo/create", data)
+      .then(() => refetch())
+      .then(() => reset());
   };
   return (
     <dialog

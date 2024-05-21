@@ -4,29 +4,32 @@ import TaskCard from "../components/TaskCard";
 import TaskForm from "../components/TaskForm";
 import useDialog from "../hooks/custom";
 import { useQuery } from "@tanstack/react-query";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import useTodoStore, { Todo } from "../store";
 import apiClient from "../axios/apiClient";
 
 function HomeLayout() {
   const methods = useDialog();
   const { setTodos, todos } = useTodoStore();
-  const [tasks, setTasks] = useState<Todo[]>(todos);
+  const [tasks, setTasks] = useState<Todo[]>([]);
 
   const getAllTasks = async () => {
     const result = await apiClient().get("/todo/getAllTodos");
-    console.log(result.data);
+    setTodos(result.data);
     return result.data;
   };
 
-  const { isLoading, isError, error } = useQuery({
+  const { isLoading, isError, error, refetch } = useQuery({
     queryKey: ["all tasks"],
     queryFn: () =>
       getAllTasks().then((res) => {
-        setTodos(res);
         return res;
       }),
   });
+
+  useEffect(() => {
+    setTasks(todos);
+  }, [todos]);
 
   if (isLoading) {
     return <span>Loading...</span>;
@@ -42,7 +45,7 @@ function HomeLayout() {
         <AddTask openDialog={methods.openDialog} />
 
         <SearchBar setTasks={setTasks} />
-        <TaskForm {...methods} />
+        <TaskForm {...methods} refetch={refetch} />
         <div
           className="flex flex-col space-y-2 overflow-y-auto items-center w-full max-w-screen-lg"
           style={{ maxHeight: "calc(100vh - 250px)", scrollbarWidth: "thin" }}
@@ -54,6 +57,7 @@ function HomeLayout() {
               isImportant={isImportant}
               label={label}
               id={id}
+              refetch={refetch}
             />
           ))}
           {tasks.length == 0 && (
