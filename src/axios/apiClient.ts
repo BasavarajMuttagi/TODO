@@ -1,11 +1,10 @@
 import axios from "axios";
-import useTodoStore from "../store";
 
 function apiClient() {
   return axios.create({
-    baseURL: "https://api-food-delivery.vercel.app",
+    baseURL: "http://localhost:3000",
     headers: {
-      Authorization: `Bearer ${useTodoStore.getState().token}`,
+      Authorization: `Bearer ${"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiJlNzk2OGQzMi1lZWRkLTQ3YWMtOGFkZC0xYzI5MzhmZTc0M2EiLCJlbWFpbCI6ImpvaG4uZG9lQGdtYWlsLmNvbSIsIm5hbWUiOiJKb2huIERvZSIsImlhdCI6MTcxNjI5MTk0NiwiZXhwIjoxNzE2Mzc4MzQ2fQ.6vBZAB2WUOEcbOtAqyHOTBkymTk3kzJw9X6YXUEqbAc"}`,
     },
   });
 }

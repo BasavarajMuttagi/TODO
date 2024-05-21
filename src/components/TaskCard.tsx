@@ -1,28 +1,36 @@
 import { CheckCircle, DotsThree, Star } from "@phosphor-icons/react";
+import apiClient from "../axios/apiClient";
 
 type taskCardProps = {
-  isCompleted: boolean;
+  isComplete: boolean;
   isImportant: boolean;
   label: string;
+  id: string;
 };
 function TaskCard({
-  isCompleted = false,
+  isComplete = false,
   isImportant = false,
   label,
+  id,
 }: taskCardProps) {
+  const updateState = async (data: Partial<taskCardProps>) => {
+    await apiClient().put(`/todo/update/${id}`, data);
+  };
   return (
     <div className="w-full rounded outline-none bg-white/15 min-h-10 text-neutral-400 flex justify-between items-center px-2 py-4 space-x-2  shrink-0 hover:bg-white/35">
       <div>
-        {isCompleted ? (
+        {isComplete ? (
           <CheckCircle
             size={28}
             weight="fill"
             className="text-green-500 cursor-pointer hover:brightness-150"
+            onClick={() => updateState({ isComplete: !isComplete })}
           />
         ) : (
           <CheckCircle
             size={28}
             className="cursor-pointer hover:brightness-150"
+            onClick={() => updateState({ isComplete: !isComplete })}
           />
         )}
       </div>
@@ -36,9 +44,14 @@ function TaskCard({
               size={20}
               weight="fill"
               className="text-yellow-500 cursor-pointer hover:brightness-150"
+              onClick={() => updateState({ isImportant: !isImportant })}
             />
           ) : (
-            <Star size={20} className="cursor-pointer hover:brightness-150" />
+            <Star
+              size={20}
+              className="cursor-pointer hover:brightness-150"
+              onClick={() => updateState({ isImportant: !isImportant })}
+            />
           )}
         </div>
         <div>

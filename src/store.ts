@@ -9,6 +9,7 @@ const storageModule = {
 type store = {
   token: string;
   todos: Todo[];
+  setTodos: (todos: Todo[]) => void;
   setToken: (newToken: string) => void;
   logout: () => void;
 };
@@ -18,6 +19,7 @@ const useTodoStore = create<store>()(
     (set) => ({
       token: "",
       todos: [],
+      setTodos: (todos) => set(() => ({ todos })),
       setToken: (newToken) => set(() => ({ token: newToken })),
       logout: () => {
         set(() => ({
@@ -31,7 +33,7 @@ const useTodoStore = create<store>()(
 );
 export default useTodoStore;
 
-type Todo = {
+export type Todo = {
   id: string;
   userId: string;
   label: string;
